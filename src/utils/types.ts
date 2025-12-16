@@ -4,6 +4,7 @@ type RecursiveProperties<T> = {
   [P in keyof T]: T[P] extends object ? RecursiveProperties<T[P]> : P;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function recursiveProperties(obj: any, prefix = ""): any {
   return new Proxy(
     {},
