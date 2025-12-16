@@ -21,6 +21,8 @@ import { SettingsContext } from "./contexts/settings";
 import { debounce, isEqual, trim } from "lodash";
 import { useTranslation } from "react-i18next";
 import { translationKeys } from "./translations";
+import { log } from "../utils/log";
+import { config } from "../config";
 
 /*
  * Styles.
@@ -238,13 +240,13 @@ function App() {
               settingsToPersist.commandSeparator
             );
           } catch (error) {
-            console.error("Error updating rewrite shortcut", error);
+            log.error("Error updating rewrite shortcut", error);
           }
         }
 
         await settingsService.saveSettings(settingsToPersist);
       }
-    }, 1000),
+    }, config.ui.persistenceDebounceMs),
     []
   );
 
@@ -295,10 +297,7 @@ function App() {
 
           <div style={{ flex: 1 }} />
 
-          <BuyCoffeeLink
-            href="https://buymeacoffee.com/jmacedo"
-            target="_blank"
-          >
+          <BuyCoffeeLink href={config.supportUrl} target="_blank">
             Buy me a ☕
           </BuyCoffeeLink>
         </Menu>

@@ -9,6 +9,7 @@ import { sleep } from "./utils/general";
 import { exit } from "@tauri-apps/plugin-process";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { translationKeys } from "./ui/translations";
+import { log } from "./utils/log";
 
 const loaderIconResource = "icons/loader-icon.png";
 const trayIconResource = "icons/tray-icon.png";
@@ -128,7 +129,7 @@ export class WindowUiHelper {
 
       this.rewriteShortcut = shortcut;
     } catch (error) {
-      console.error("Error updating rewrite shortcut: ", error);
+      log.error("Error updating rewrite shortcut: ", error);
 
       throw error;
     }
