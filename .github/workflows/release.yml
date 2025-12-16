@@ -40,7 +40,12 @@ jobs:
           releaseBody: |
             Download the .dmg file below to install Reright on macOS.
 
-            **First launch:** Since the app is not notarized, macOS may block it. Right-click the app and select **Open**, then click **Open** in the dialog to allow it.
+            **First launch:** Since the app is not notarized, macOS will block it. To open:
+            1. Try to open the app (it will be blocked)
+            2. Go to **System Settings → Privacy & Security**
+            3. Scroll down and click **Open Anyway** next to the Reright message
+
+            Or run in Terminal: `xattr -cr /Applications/Reright.app`
           releaseDraft: false
           prerelease: false
 
