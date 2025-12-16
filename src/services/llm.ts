@@ -3,7 +3,10 @@ import {
   HumanMessage,
   SystemMessage,
 } from "@langchain/core/messages";
-import { initChatModel } from "langchain/chat_models/universal";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatAnthropic } from "@langchain/anthropic";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { log } from "../utils/log";
 
 /*
@@ -22,30 +25,59 @@ export type ModelConfigurations = {
 
 export const providerModels = {
   openai: [
-    "gpt-5.2",
-    "gpt-5-mini",
-    "gpt-5",
-    "gpt-5-nano",
-    "gpt-4.1",
-    "gpt-4.1-nano",
     "gpt-4o-mini",
+    "gpt-4.1-nano",
+    "gpt-5-nano",
+    "gpt-5-mini",
+    "gpt-5.2",
+    "gpt-5",
+    "gpt-4.1",
   ],
-  anthropic: ["claude-haiku-4-5"],
+  anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-opus-4-5"],
+  ["google-genai"]: ["gemini-flash-lite-latest", "gemini-flash-latest"],
 } as Record<string, string[]>;
+
+export const recommendedModels = [
+  "gpt-4o-mini",
+  "claude-haiku-4-5",
+  "gemini-flash-lite-latest",
+];
 
 /*
  * Service.
  */
 
 export class LlmService {
-  model: any;
+  model: BaseChatModel | null = null;
 
   async setModel(modelParameters: ModelConfigurations) {
-    this.model = await initChatModel(modelParameters.modelId, {
-      apiKey: modelParameters.apiKey,
-      modelProvider: modelParameters.provider,
-      maxCompletionTokens: 4096,
-    });
+    const { modelId, apiKey, provider } = modelParameters;
+
+    switch (provider) {
+      case "openai":
+        this.model = new ChatOpenAI({
+          model: modelId,
+          apiKey,
+          maxTokens: 4096,
+        });
+        break;
+      case "anthropic":
+        this.model = new ChatAnthropic({
+          model: modelId,
+          apiKey,
+          maxTokens: 4096,
+        });
+        break;
+      case "google-genai":
+        this.model = new ChatGoogleGenerativeAI({
+          model: modelId,
+          apiKey,
+          maxOutputTokens: 4096,
+        });
+        break;
+      default:
+        throw new Error(`Unsupported provider: ${provider}`);
+    }
   }
 
   async transformText(instructions: string, text: string): Promise<string> {

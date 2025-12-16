@@ -217,7 +217,6 @@ export function Rewrites() {
     () => rewrites.map((rewrite) => rewrite.commandWord),
     [rewrites]
   );
-
   const rewriteSchema = useMemo(() => createRewriteSchema(t), [t]);
   const rewriteValidator = useMemo(
     () =>
