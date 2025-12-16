@@ -2,6 +2,7 @@ import { UnlistenFn } from "@tauri-apps/api/event";
 import { Rewrite } from "../types/general";
 import { load, Store } from "@tauri-apps/plugin-store";
 import { log } from "../utils/log";
+import { config } from "../config";
 
 /*
  * Types.
@@ -69,8 +70,8 @@ const defaultSettings: Settings = {
  * Service.
  */
 
-const storePath = "settings.json";
-const settingsKey = "settings";
+const storePath = config.storage.path;
+const settingsKey = config.storage.key;
 
 export class SettingsService {
   store: Store | null = null;
