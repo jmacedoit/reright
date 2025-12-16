@@ -144,21 +144,22 @@ const LabelHintContainer = styled.div`
 
 export const ShortcutRecorderField = connectField<ShortcutRecorderFieldProps>(
   function ShortcutRecorderFieldComponent({
-    autoComplete,
-    disabled,
     id,
-    inputRef,
     label,
-    name,
     onChange,
-    placeholder,
-    readOnly,
     hint,
-    type = "text",
     value,
     isRecordingLabel,
     stopRecordingLabel,
     clearShortcutLabel,
+    // Extracted to prevent passing to DOM via ...props
+    autoComplete: _autoComplete,
+    disabled: _disabled,
+    inputRef: _inputRef,
+    name: _name,
+    placeholder: _placeholder,
+    readOnly: _readOnly,
+    type: _type = "text",
     ...props
   }: ShortcutRecorderFieldProps) {
     const replaceMetaAndSuperKeys = (shortcut: string) => {
@@ -215,7 +216,11 @@ export const ShortcutRecorderField = connectField<ShortcutRecorderFieldProps>(
 
           <IconButton
             onClick={() => {
-              isRecording ? stopRecording() : startRecording();
+              if (isRecording) {
+                stopRecording();
+              } else {
+                startRecording();
+              }
             }}
             aria-label={isRecording ? stopRecordingLabel : isRecordingLabel}
             title={isRecording ? stopRecordingLabel : isRecordingLabel}
