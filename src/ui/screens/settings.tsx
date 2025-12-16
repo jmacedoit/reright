@@ -5,7 +5,7 @@ import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
 import { AutoField, AutoForm } from "uniforms-unstyled";
 import { type UnknownObject } from "uniforms";
 import { units } from "../styles/dimensions";
-import { providerModels } from "../../services/llm";
+import { providerModels, recommendedModels } from "../../services/llm";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { translationKeys } from "../translations";
@@ -45,7 +45,8 @@ type SettingsFormData = {
 const createSettingsSchema = (
   selectedProvider: string,
   t: TFunction,
-  rewritesCommandWords: string[]
+  rewritesCommandWords: string[],
+  allowedProviders: string[]
 ): JSONSchemaType<SettingsFormData> => ({
   type: "object",
   properties: {
@@ -82,7 +83,7 @@ const createSettingsSchema = (
       properties: {
         provider: {
           type: "string",
-          enum: ["openai", "anthropic"],
+          enum: allowedProviders,
           title: t(translationKeys.screens.settings.form.model.provider.title),
           uniforms: {
             hint: t(translationKeys.screens.settings.form.model.provider.hint),
@@ -94,6 +95,12 @@ const createSettingsSchema = (
           title: t(translationKeys.screens.settings.form.model.modelId.title),
           uniforms: {
             hint: t(translationKeys.screens.settings.form.model.modelId.hint),
+            options: providerModels[selectedProvider].map((model) => ({
+              label: `${model}${
+                recommendedModels.includes(model) ? " ⚡" : ""
+              }`,
+              value: model,
+            })),
           },
         },
         apiKey: {
@@ -173,7 +180,8 @@ export function Settings() {
         t,
         loadedSettings?.rewrites?.map((rewrite) => rewrite.commandWord) ?? [
           formModel?.defaultCommand ?? "",
-        ]
+        ],
+        Object.keys(providerModels)
       ),
     [selectedProvider, t, loadedSettings]
   );
