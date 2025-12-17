@@ -13,7 +13,8 @@ import type { Settings } from "../../services/settings";
 import {
   SelectField,
   ShortcutRecorderField,
-  CodeField
+  CodeField,
+  SwitchField
 } from "../components/forms";
 import { PageContainer } from "../components/containers";
 import { SettingsContext } from "../contexts/settings";
@@ -40,6 +41,7 @@ type SettingsFormData = {
     provider: string;
     apiKey: string;
   };
+  autostart: boolean;
 };
 
 const createSettingsSchema = (
@@ -116,6 +118,13 @@ const createSettingsSchema = (
       },
       required: ["provider", "modelId", "apiKey"],
       additionalProperties: false
+    },
+    autostart: {
+      type: "boolean",
+      title: t(translationKeys.screens.settings.form.autostart.title),
+      uniforms: {
+        hint: t(translationKeys.screens.settings.form.autostart.hint)
+      }
     }
   },
   required: ["rewriteShortcut", "defaultCommand", "model"],
@@ -161,7 +170,8 @@ export function Settings() {
           provider: loadedSettings.model.provider,
           modelId: loadedSettings.model.modelId,
           apiKey: loadedSettings.model.apiKey
-        }
+        },
+        autostart: loadedSettings.autostart
       });
     }
 
@@ -261,6 +271,10 @@ export function Settings() {
               autoCapitalize="off"
               autoCorrect="off"
             />
+          </FormRow>
+
+          <FormRow>
+            <AutoField name="autostart" component={SwitchField} />
           </FormRow>
         </AutoForm>
       </FormsContainer>

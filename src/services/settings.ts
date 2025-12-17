@@ -19,6 +19,7 @@ export type Settings = {
     provider: string;
     apiKey: string;
   };
+  autostart: boolean;
 };
 
 /*
@@ -63,7 +64,8 @@ const defaultSettings: Settings = {
     modelId: "gpt-4o-mini",
     provider: "openai",
     apiKey: ""
-  }
+  },
+  autostart: true
 };
 
 /*

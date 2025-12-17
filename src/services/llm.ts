@@ -50,7 +50,7 @@ export const recommendedModels = [
 export class LlmService {
   model: BaseChatModel | null = null;
 
-  async setModel(modelParameters: ModelConfigurations) {
+  setModel(modelParameters: ModelConfigurations) {
     const { modelId, apiKey, provider } = modelParameters;
 
     switch (provider) {

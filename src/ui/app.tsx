@@ -1,4 +1,8 @@
 import { styled } from "@linaria/react";
+import {
+  enable as enableAutostart,
+  disable as disableAutostart
+} from "@tauri-apps/plugin-autostart";
 import { useCallback, useEffect, useState } from "react";
 import { Settings, settingsService } from "../services/settings";
 import { llmService } from "../services/llm";
@@ -172,10 +176,7 @@ function App() {
       await windowUiHelper.initializeWindow(t);
       const justLoadedSettings = await settingsService.loadSettings();
 
-      llmService.setModel(justLoadedSettings.model);
-
       setLoadedSettings(justLoadedSettings);
-
       settingsListenerReference = await settingsService.addUpdateListener(
         (updatedSettings) => {
           setLoadedSettings((prevSettings) => {
@@ -205,10 +206,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    async function updateWindowUiAndModel() {
+    async function applySettings() {
+      log.debug("Applying settings", loadedSettings);
+
       if (!loadedSettings) return;
 
-      await windowUiHelper.updateTrayMenu(
+      const updateTrayMenuPromise = windowUiHelper.updateTrayMenu(
         loadedSettings.rewrites,
         loadedSettings.languages,
         loadedSettings.defaultCommand,
@@ -216,37 +219,42 @@ function App() {
         loadedSettings.commandSeparator
       );
 
-      await windowUiHelper.updateRewriteShortcut(
-        loadedSettings.rewriteShortcut,
-        loadedSettings.defaultCommand,
-        loadedSettings.rewrites,
-        loadedSettings.commandSeparator
-      );
+      const updateRewriteShortcutPromise = (async () => {
+        if (trim(loadedSettings.rewriteShortcut ?? "").length === 0) {
+          await windowUiHelper.removeRewriteShortcut();
+        } else {
+          await windowUiHelper.updateRewriteShortcut(
+            loadedSettings.rewriteShortcut,
+            loadedSettings.defaultCommand,
+            loadedSettings.rewrites,
+            loadedSettings.commandSeparator
+          );
+        }
+      })();
+
+      const updateAutostartPromise = (async () => {
+        if (loadedSettings.autostart) {
+          await enableAutostart();
+        } else {
+          await disableAutostart();
+        }
+      })();
 
       llmService.setModel(loadedSettings.model);
+
+      await Promise.all([
+        updateTrayMenuPromise,
+        updateRewriteShortcutPromise,
+        updateAutostartPromise
+      ]);
     }
 
-    updateWindowUiAndModel();
+    applySettings();
   }, [loadedSettings]);
 
   const persistSettings = useCallback(
     debounce(async (settingsToPersist: Settings) => {
       if (settingsToPersist) {
-        if (trim(settingsToPersist.rewriteShortcut ?? "").length === 0) {
-          await windowUiHelper.removeRewriteShortcut();
-        } else {
-          try {
-            await windowUiHelper.updateRewriteShortcut(
-              settingsToPersist.rewriteShortcut,
-              settingsToPersist.defaultCommand,
-              settingsToPersist.rewrites,
-              settingsToPersist.commandSeparator
-            );
-          } catch (error) {
-            log.error("Error updating rewrite shortcut", error);
-          }
-        }
-
         await settingsService.saveSettings(settingsToPersist);
       }
     }, config.ui.persistenceDebounceMs),
