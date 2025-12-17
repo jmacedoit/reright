@@ -31,7 +31,7 @@ Additionally, if you enjoy features like writing enhancement or translation in t
 
 ## Download
 
-**macOS:** [Download the latest release](https://github.com/jmacedo/reright/releases/latest)
+**macOS:** [Download the latest release](https://github.com/jmacedoit/reright/releases/latest)
 
 > Support for other platforms is under consideration. Show your interest by starring the repo and [supporting me](https://buymeacoffee.com/jmacedo).
 
