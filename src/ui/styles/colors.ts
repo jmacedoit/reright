@@ -9,7 +9,7 @@ export const palette = {
   lightPink: "#FFD6E0",
   lightOrange: "#F6C28B",
   veryLightMint: "#F1FDF6",
-  veryLightBlue: "#E9F6FE",
+  veryLightBlue: "#E9F6FE"
 };
 
 export const commandPalette = [
@@ -21,9 +21,9 @@ export const commandPalette = [
   "#B5CDA3",
   palette.lightOrange,
   "#F1E3DD",
-  "#AEC2B6",
+  "#AEC2B6"
 ];
 
 export const colorTheme = {
-  accent: palette.rust,
+  accent: palette.rust
 };

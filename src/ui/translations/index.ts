@@ -6,12 +6,12 @@ const translations = {
       tray: {
         defaultRewrite: "Default rewrite",
         configure: "Configure Reright",
-        quit: "Quit",
+        quit: "Quit"
       },
       menu: {
         howTo: "How to use",
         rewrites: "Rewrites",
-        settings: "Settings",
+        settings: "Settings"
       },
       screens: {
         howto: {
@@ -30,7 +30,7 @@ const translations = {
               "Press the global shortcut <shortcut></shortcut> to trigger the rewrite",
             step3: "<strong>Paste</strong> the transformed text",
             exampleInput: "teh quick browm fox jumpd over the lazzy dog",
-            exampleOutput: "The quick brown fox jumped over the lazy dog.",
+            exampleOutput: "The quick brown fox jumped over the lazy dog."
           },
           mode2: {
             label: "Mode 2",
@@ -46,7 +46,7 @@ const translations = {
             exampleCommand: "enhance",
             exampleOutput:
               "The quarterly results demonstrated exceptional performance, exceeding projected targets across all key metrics.",
-            note: "Available commands depend on your configured rewrites. Check the <strong>Rewrites</strong> tab to see all available command words.",
+            note: "Available commands depend on your configured rewrites. Check the <strong>Rewrites</strong> tab to see all available command words."
           },
           mode3: {
             label: "Mode 3",
@@ -63,10 +63,10 @@ const translations = {
               "make this more formal and add a request for scheduling a call",
             exampleOutput:
               "Dear Mr. John,\n\nI hope this message finds you well. I am writing to follow up on our recent meeting. I would greatly appreciate the opportunity to schedule a call at your earliest convenience to discuss the next steps.\n\nBest regards",
-            note: "Ad-hoc instructions are detected when your text after <separator>{{separator}}</separator> doesn't match any existing command word.",
+            note: "Ad-hoc instructions are detected when your text after <separator>{{separator}}</separator> doesn't match any existing command word."
           },
           trayHint:
-            "💡 <strong>Alternative:</strong> Instead of using the keyboard shortcut, you can also trigger rewrites from the <strong>tray menu</strong> in your system bar. This gives you quick access to all your configured rewrites and works the same way — just select your text, copy it, choose a rewrite from the tray menu, and paste the result.",
+            "💡 <strong>Alternative:</strong> Instead of using the keyboard shortcut, you can also trigger rewrites from the <strong>tray menu</strong> in your system bar. This gives you quick access to all your configured rewrites and works the same way — just select your text, copy it, choose a rewrite from the tray menu, and paste the result."
         },
         settings: {
           title: "Settings",
@@ -77,29 +77,29 @@ const translations = {
               hint: "The shortcut to rewrite the text",
               startRecordingLabel: "Start recording",
               stopRecordingLabel: "Stop recording",
-              clearShortcutLabel: "Clear shortcut",
+              clearShortcutLabel: "Clear shortcut"
             },
             defaultCommand: {
               title: "Default command",
-              hint: "Which command will be used when none is specified",
+              hint: "Which command will be used when none is specified"
             },
             model: {
               title: "Model configuration",
               provider: {
                 title: "Provider",
-                hint: "Specify the model provider",
+                hint: "Specify the model provider"
               },
               modelId: {
                 title: "Model",
-                hint: "Tip: pick a faster model for better UX",
+                hint: "Tip: pick a faster model for better UX"
               },
               apiKey: {
                 title: "API key",
                 placeholder: "sk-ziH...",
-                hint: "You can find this on your specific provider dashboard",
-              },
-            },
-          },
+                hint: "You can find this on your specific provider dashboard"
+              }
+            }
+          }
         },
         rewrites: {
           title: "Rewrites",
@@ -108,8 +108,8 @@ const translations = {
               name: "Name",
               command: "Command",
               instructions: "Instructions",
-              actions: "Actions",
-            },
+              actions: "Actions"
+            }
           },
           modal: {
             editButtonLabel: "Edit rewrite",
@@ -118,33 +118,33 @@ const translations = {
             editTitle: "Edit rewrite",
             addButton: "Add",
             saveButton: "Save",
-            cancelButton: "Cancel",
+            cancelButton: "Cancel"
           },
           deleteModal: {
             title: "Delete rewrite",
             description: 'Are you sure you want to delete "{{name}}"?',
-            deleteButton: "Delete",
+            deleteButton: "Delete"
           },
           form: {
             name: {
               title: "Name",
-              hint: "Friendly label for this rewrite",
+              hint: "Friendly label for this rewrite"
             },
             commandWord: {
               title: "Command",
               hint: "Applying on: <code>{{example}}</code> will trigger this rewrite",
-              uniqueError: "Command must be unique",
+              uniqueError: "Command must be unique"
             },
             instructions: {
               title: "Instructions",
-              hint: "How the model should transform the selected text",
-            },
+              hint: "How the model should transform the selected text"
+            }
           },
-          newButton: "New",
-        },
-      },
-    },
-  },
+          newButton: "New"
+        }
+      }
+    }
+  }
 };
 
 export default translations;

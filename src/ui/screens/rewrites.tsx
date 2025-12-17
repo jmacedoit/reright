@@ -12,7 +12,7 @@ import {
   ModalActions,
   ModalBody,
   ModalContainer,
-  ModalContent,
+  ModalContent
 } from "../components/modal";
 import Ajv, { type ErrorObject, type JSONSchemaType } from "ajv";
 import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
@@ -22,7 +22,7 @@ import {
   CodeField,
   Errors,
   TextAreaField,
-  TextField,
+  TextField
 } from "../components/forms";
 import { isEmpty, trim } from "lodash";
 import { Rewrite } from "../../types/general";
@@ -99,28 +99,28 @@ const createRewriteSchema = (
       title: t(translationKeys.screens.rewrites.form.name.title),
       minLength: 1,
       uniforms: {
-        hint: t(translationKeys.screens.rewrites.form.name.hint),
+        hint: t(translationKeys.screens.rewrites.form.name.hint)
       },
-      maxLength: 32,
+      maxLength: 32
     },
     commandWord: {
       type: "string",
       title: t(translationKeys.screens.rewrites.form.commandWord.title),
       minLength: 1,
-      maxLength: 32,
+      maxLength: 32
     },
     instructions: {
       type: "string",
       title: t(translationKeys.screens.rewrites.form.instructions.title),
       minLength: 1,
       uniforms: {
-        hint: t(translationKeys.screens.rewrites.form.instructions.hint),
+        hint: t(translationKeys.screens.rewrites.form.instructions.hint)
       },
-      maxLength: 2048,
-    },
+      maxLength: 2048
+    }
   },
   required: ["name", "commandWord", "instructions"],
-  additionalProperties: false,
+  additionalProperties: false
 });
 
 const createValidator = (
@@ -152,7 +152,7 @@ const createValidator = (
         schemaPath: "#/properties/commandWord",
         keyword: "uniqueCommandWord",
         params: {},
-        message: duplicateCommandMessage,
+        message: duplicateCommandMessage
       } as ErrorObject);
     }
 
@@ -163,7 +163,7 @@ const createValidator = (
 const emptyRewriteFormModel: RewriteFormData = {
   name: "",
   commandWord: "",
-  instructions: "",
+  instructions: ""
 };
 /*
  * Components.
@@ -232,7 +232,7 @@ export function Rewrites() {
     () =>
       new JSONSchemaBridge({
         schema: rewriteSchema,
-        validator: rewriteValidator,
+        validator: rewriteValidator
       }),
     [rewriteSchema, rewriteValidator]
   );
@@ -255,7 +255,7 @@ export function Rewrites() {
           const updatedRewrite: Rewrite = {
             name: trim(nextRewrite.name),
             commandWord: trim(nextRewrite.commandWord),
-            instructions: trim(nextRewrite.instructions),
+            instructions: trim(nextRewrite.instructions)
           };
 
           const rewrites = prev.rewrites.map((rewrite) =>
@@ -272,7 +272,7 @@ export function Rewrites() {
           return {
             ...prev,
             rewrites,
-            defaultCommand,
+            defaultCommand
           };
         }
 
@@ -283,9 +283,9 @@ export function Rewrites() {
             {
               name: trim(nextRewrite.name),
               commandWord: trim(nextRewrite.commandWord),
-              instructions: trim(nextRewrite.instructions),
-            },
-          ],
+              instructions: trim(nextRewrite.instructions)
+            }
+          ]
         };
       });
 
@@ -313,12 +313,12 @@ export function Rewrites() {
       );
       const nextDefaultCommand = hasValidDefault
         ? prev.defaultCommand
-        : nextRewrites[0]?.commandWord ?? "";
+        : (nextRewrites[0]?.commandWord ?? "");
 
       return {
         ...prev,
         rewrites: nextRewrites,
-        defaultCommand: nextDefaultCommand,
+        defaultCommand: nextDefaultCommand
       };
     });
 
@@ -378,7 +378,7 @@ export function Rewrites() {
                           isEmpty(rewriteFormModel?.commandWord)
                             ? "comand"
                             : rewriteFormModel?.commandWord
-                        }`,
+                        }`
                       }}
                     />
                   }
@@ -427,7 +427,7 @@ export function Rewrites() {
             <p>
               {t(translationKeys.screens.rewrites.deleteModal.description, {
                 name: rewritePendingDeletion?.name ?? "",
-                commandWord: rewritePendingDeletion?.commandWord ?? "",
+                commandWord: rewritePendingDeletion?.commandWord ?? ""
               })}
             </p>
           </ModalBody>

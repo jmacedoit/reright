@@ -88,8 +88,6 @@ const SelectedText = styled.span`
   background: ${palette.veryLightBlue};
   padding: 2px 6px;
   border-radius: 3px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-    system-ui, sans-serif;
   position: relative;
 
   &::before {
@@ -128,8 +126,6 @@ const TextBlock = styled.div`
   border: 1px solid ${palette.veryLightGrey};
   border-radius: ${units(1)}px;
   padding: ${units(1.5)}px ${units(2)}px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-    system-ui, sans-serif;
   margin: ${units(1)}px 0;
   display: inline-block;
 `;
@@ -215,7 +211,6 @@ export function HowTo() {
 
       <Intro>{t(translationKeys.screens.howto.intro)}</Intro>
 
-      {/* Mode 1: Quick Rewrite */}
       <Section>
         <ModeLabel>{t(translationKeys.screens.howto.mode1.label)}</ModeLabel>
         <SectionTitle>
@@ -226,7 +221,7 @@ export function HowTo() {
             i18nKey={translationKeys.screens.howto.mode1.description}
             values={{ command: defaultCommand }}
             components={{
-              command: <CommandWord colorIndex={defaultCommandIndex} />,
+              command: <CommandWord colorIndex={defaultCommandIndex} />
             }}
           />
           <br />
@@ -255,7 +250,7 @@ export function HowTo() {
                 <Trans
                   i18nKey={translationKeys.screens.howto.mode1.step2}
                   components={{
-                    shortcut: <InlineKeyBinding keys={shortcut} />,
+                    shortcut: <InlineKeyBinding keys={shortcut} />
                   }}
                 />
               </StepContent>
@@ -277,7 +272,6 @@ export function HowTo() {
         </ExampleCard>
       </Section>
 
-      {/* Mode 2: Command-Specific Rewrite */}
       <Section>
         <ModeLabel>{t(translationKeys.screens.howto.mode2.label)}</ModeLabel>
         <SectionTitle>
@@ -288,7 +282,7 @@ export function HowTo() {
             i18nKey={translationKeys.screens.howto.mode2.description}
             values={{ separator: commandSeparator }}
             components={{
-              separator: <Separator />,
+              separator: <Separator />
             }}
           />
         </SmallNote>
@@ -302,7 +296,7 @@ export function HowTo() {
                   values={{ separator: commandSeparator }}
                   components={{
                     strong: <strong />,
-                    separator: <Separator />,
+                    separator: <Separator />
                   }}
                 />
                 <br />
@@ -324,7 +318,7 @@ export function HowTo() {
                   i18nKey={translationKeys.screens.howto.mode2.step2}
                   components={{
                     strong: <strong />,
-                    shortcut: <InlineKeyBinding keys={shortcut} />,
+                    shortcut: <InlineKeyBinding keys={shortcut} />
                   }}
                 />
               </StepContent>
@@ -353,7 +347,6 @@ export function HowTo() {
         </SmallNote>
       </Section>
 
-      {/* Mode 3: Ad-hoc Instructions */}
       <Section>
         <ModeLabel>{t(translationKeys.screens.howto.mode3.label)}</ModeLabel>
         <SectionTitle>
@@ -364,7 +357,7 @@ export function HowTo() {
             i18nKey={translationKeys.screens.howto.mode3.description}
             values={{ separator: commandSeparator }}
             components={{
-              separator: <Separator />,
+              separator: <Separator />
             }}
           />
         </SmallNote>
@@ -378,7 +371,7 @@ export function HowTo() {
                   values={{ separator: commandSeparator }}
                   components={{
                     strong: <strong />,
-                    separator: <Separator />,
+                    separator: <Separator />
                   }}
                 />
                 <TextBlock>
@@ -401,7 +394,7 @@ export function HowTo() {
                   i18nKey={translationKeys.screens.howto.mode3.step2}
                   components={{
                     strong: <strong />,
-                    shortcut: <InlineKeyBinding keys={shortcut} />,
+                    shortcut: <InlineKeyBinding keys={shortcut} />
                   }}
                 />
               </StepContent>
@@ -426,7 +419,7 @@ export function HowTo() {
             i18nKey={translationKeys.screens.howto.mode3.note}
             values={{ separator: commandSeparator }}
             components={{
-              separator: <Separator />,
+              separator: <Separator />
             }}
           />
         </SmallNote>

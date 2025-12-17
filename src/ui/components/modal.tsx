@@ -41,7 +41,7 @@ export function ModalContainer({
   isOpen,
   onAfterOpen,
   onRequestClose,
-  id = "modal-root",
+  id = "modal-root"
 }: ModalContainerProps) {
   const modalRoot = useMemo(() => {
     const element = document.getElementById(id);

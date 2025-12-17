@@ -20,7 +20,7 @@ function recursiveProperties(obj: any, prefix = ""): any {
       },
       set: () => {
         throw new Error("Set not supported");
-      },
+      }
     }
   );
 }

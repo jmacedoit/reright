@@ -2,9 +2,9 @@ export const config = {
   supportUrl: "https://buymeacoffee.com/jmacedo",
   storage: {
     path: "settings.json",
-    key: "settings",
+    key: "settings"
   },
   ui: {
-    persistenceDebounceMs: 1000,
-  },
+    persistenceDebounceMs: 1000
+  }
 } as const;

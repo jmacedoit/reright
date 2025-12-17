@@ -1,7 +1,7 @@
 import {
   AIMessageChunk,
   HumanMessage,
-  SystemMessage,
+  SystemMessage
 } from "@langchain/core/messages";
 import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { ChatOpenAI } from "@langchain/openai";
@@ -31,16 +31,16 @@ export const providerModels = {
     "gpt-5-mini",
     "gpt-5.2",
     "gpt-5",
-    "gpt-4.1",
+    "gpt-4.1"
   ],
   anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-opus-4-5"],
-  ["google-genai"]: ["gemini-flash-lite-latest", "gemini-flash-latest"],
+  ["google-genai"]: ["gemini-flash-lite-latest", "gemini-flash-latest"]
 } as Record<string, string[]>;
 
 export const recommendedModels = [
   "gpt-4o-mini",
   "claude-haiku-4-5",
-  "gemini-flash-lite-latest",
+  "gemini-flash-lite-latest"
 ];
 
 /*
@@ -58,21 +58,21 @@ export class LlmService {
         this.model = new ChatOpenAI({
           model: modelId,
           apiKey,
-          maxTokens: 4096,
+          maxTokens: 4096
         });
         break;
       case "anthropic":
         this.model = new ChatAnthropic({
           model: modelId,
           apiKey,
-          maxTokens: 4096,
+          maxTokens: 4096
         });
         break;
       case "google-genai":
         this.model = new ChatGoogleGenerativeAI({
           model: modelId,
           apiKey,
-          maxOutputTokens: 4096,
+          maxOutputTokens: 4096
         });
         break;
       default:

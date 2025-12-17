@@ -34,36 +34,36 @@ const defaultSettings: Settings = {
       name: "Fix",
       commandWord: "fix",
       instructions:
-        "Fix spelling, grammar, formatting and capitalization; don't change content and style.",
+        "Fix spelling, grammar, formatting and capitalization; don't change content and style."
     },
     {
       name: "Improve",
       commandWord: "improve",
       instructions:
-        "Improve the writing of text while preserving its original meaning and intent.",
+        "Improve the writing of text while preserving its original meaning and intent."
     },
     {
       name: "Explain",
       commandWord: "explain",
-      instructions: "Explain the code/text in a clear and concise language.",
+      instructions: "Explain the code/text in a clear and concise language."
     },
     {
       name: "Translate to english",
       commandWord: "entranslate",
-      instructions: "Translate the text to english",
+      instructions: "Translate the text to english"
     },
     {
       name: "Summarize",
       commandWord: "summarize",
-      instructions: "Summarize the text make it more concise.",
-    },
+      instructions: "Summarize the text make it more concise."
+    }
   ],
   commandSeparator: "///",
   model: {
     modelId: "gpt-4o-mini",
     provider: "openai",
-    apiKey: "",
-  },
+    apiKey: ""
+  }
 };
 
 /*
@@ -80,7 +80,7 @@ export class SettingsService {
     if (!this.store) {
       this.store = await load(storePath, {
         autoSave: false,
-        defaults: { [settingsKey]: defaultSettings },
+        defaults: { [settingsKey]: defaultSettings }
       });
     }
 
