@@ -98,6 +98,10 @@ const translations = {
                 placeholder: "sk-ziH...",
                 hint: "You can find this on your specific provider dashboard"
               }
+            },
+            autostart: {
+              title: "Autostart",
+              hint: "Whether to start automatically when the system boots"
             }
           }
         },

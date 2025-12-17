@@ -1,5 +1,5 @@
 import { ReactNode, Ref, useEffect, useState } from "react";
-import { SelectFieldProps } from "uniforms-unstyled";
+import { BoolFieldProps, SelectFieldProps } from "uniforms-unstyled";
 import {
   connectField,
   filterDOMProps,
@@ -117,6 +117,65 @@ const SelectChevron = styled(ChevronDownIcon)`
   width: ${units(1.5)}px;
   height: ${units(1.5)}px;
   pointer-events: none;
+`;
+
+const SwitchContainer = styled.label`
+  position: relative;
+  display: inline-block;
+  width: ${units(5)}px;
+  height: ${units(3)}px;
+  cursor: pointer;
+`;
+
+const SwitchInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:checked + span {
+    background-color: ${palette.green};
+  }
+
+  &:checked + span:before {
+    transform: translateX(${units(2)}px);
+  }
+
+  & + span {
+    border: 2px solid transparent;
+  }
+
+  &:focus + span {
+    box-shadow: 0 0 1px ${palette.green};
+    border: 2px solid grey;
+  }
+
+  &:disabled + span {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+const SwitchSlider = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${palette.mediumGrey};
+  transition: 0.2s;
+  border-radius: ${units(3)}px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: ${units(2)}px;
+    width: ${units(2)}px;
+    left: ${units(0.5) - 2}px;
+    bottom: ${units(0.5) - 2}px;
+    background-color: white;
+    transition: 0.2s;
+    border-radius: 50%;
+  }
 `;
 
 const FieldLabel = styled.label`
@@ -407,6 +466,54 @@ export const CodeField = styled(TextField)`
     font-family: monospace;
   }
 `;
+
+type SwitchFieldProps = BoolFieldProps & { hint?: ReactNode };
+
+export const SwitchField = connectField<SwitchFieldProps>(
+  function SwitchFieldComponent({
+    disabled,
+    id,
+    label,
+    name,
+    onChange,
+    readOnly,
+    value,
+    hint,
+    ...props
+  }: SwitchFieldProps) {
+    return (
+      <div
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        {...filterDOMProps(props)}
+      >
+        <LabelHintContainer>
+          {label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
+
+          <Hint>{hint}</Hint>
+        </LabelHintContainer>
+
+        <div style={{ flex: 1 }} />
+
+        <SwitchContainer>
+          <SwitchInput
+            checked={value || false}
+            disabled={disabled}
+            id={id}
+            name={name}
+            onChange={() => {
+              if (!readOnly) {
+                onChange(!value);
+              }
+            }}
+            type="checkbox"
+          />
+          <SwitchSlider />
+        </SwitchContainer>
+      </div>
+    );
+  },
+  { kind: "leaf" }
+);
 
 export function Errors() {
   const { error } = useForm();

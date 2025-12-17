@@ -9,7 +9,8 @@ export const palette = {
   lightPink: "#FFD6E0",
   lightOrange: "#F6C28B",
   veryLightMint: "#F1FDF6",
-  veryLightBlue: "#E9F6FE"
+  veryLightBlue: "#E9F6FE",
+  green: "#B5CDA3"
 };
 
 export const commandPalette = [
@@ -18,7 +19,7 @@ export const commandPalette = [
   "#A8D5BA",
   "#F8B195",
   "#E6E6A3",
-  "#B5CDA3",
+  palette.green,
   palette.lightOrange,
   "#F1E3DD",
   "#AEC2B6"
