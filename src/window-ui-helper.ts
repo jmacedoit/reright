@@ -28,7 +28,7 @@ export class WindowUiHelper {
     this.t = t;
     this.tray = await TrayIcon.new({
       icon: await resolveResource(trayIconResource),
-      menuOnLeftClick: true,
+      menuOnLeftClick: true
     });
 
     getCurrentWindow().onCloseRequested((event) => {
@@ -58,11 +58,11 @@ export class WindowUiHelper {
               rewrites,
               defaultCommandWord,
               commandSeparator
-            ),
+            )
         },
         {
           text: separator,
-          enabled: false,
+          enabled: false
         },
         ...rewrites.map((rewrite) => ({
           id: rewrite.name,
@@ -75,11 +75,11 @@ export class WindowUiHelper {
             ),
           ...(defaultCommandWord === rewrite.commandWord
             ? { accelerator: defaultShortcut }
-            : {}),
+            : {})
         })),
         {
           text: separator,
-          enabled: false,
+          enabled: false
         },
         {
           id: "Configure",
@@ -90,7 +90,7 @@ export class WindowUiHelper {
 
             window.show();
             window.setFocus();
-          },
+          }
         },
         {
           id: "Quit",
@@ -98,9 +98,9 @@ export class WindowUiHelper {
           action: async () => {
             await this.destroy();
             await exit(0);
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
 
     await (await this.tray).setMenu(menu);
@@ -151,7 +151,7 @@ export class WindowUiHelper {
           baseCommand,
           commandSeparator
         ),
-        sleep(1000),
+        sleep(1000)
       ]);
     } finally {
       (await this.tray).setIcon(await resolveResource(trayIconResource));

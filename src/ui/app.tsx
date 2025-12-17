@@ -9,7 +9,7 @@ import {
   useNavigate,
   useLocation,
   matchPath,
-  Navigate,
+  Navigate
 } from "react-router";
 import { Settings as SettingsScreen } from "./screens/settings";
 import { colorTheme, palette } from "./styles/colors";
@@ -139,7 +139,10 @@ const BuyCoffeeLink = styled.a`
   background-position: 0 100%;
   background-size: 0% 2px;
   background-repeat: no-repeat;
-  transition: background-size 0.3s, background-position 0s 0.3s, transform 0.3s;
+  transition:
+    background-size 0.3s,
+    background-position 0s 0.3s,
+    transform 0.3s;
 
   &:hover {
     background-position: 100% 100%;

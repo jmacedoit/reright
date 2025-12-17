@@ -13,7 +13,7 @@ import type { Settings } from "../../services/settings";
 import {
   SelectField,
   ShortcutRecorderField,
-  CodeField,
+  CodeField
 } from "../components/forms";
 import { PageContainer } from "../components/containers";
 import { SettingsContext } from "../contexts/settings";
@@ -66,16 +66,16 @@ const createSettingsSchema = (
         clearShortcutLabel: t(
           translationKeys.screens.settings.form.rewriteShortcut
             .clearShortcutLabel
-        ),
-      },
+        )
+      }
     },
     defaultCommand: {
       type: "string",
       title: t(translationKeys.screens.settings.form.defaultCommand.title),
       enum: rewritesCommandWords,
       uniforms: {
-        hint: t(translationKeys.screens.settings.form.defaultCommand.hint),
-      },
+        hint: t(translationKeys.screens.settings.form.defaultCommand.hint)
+      }
     },
     model: {
       title: t(translationKeys.screens.settings.form.model.title),
@@ -86,8 +86,8 @@ const createSettingsSchema = (
           enum: allowedProviders,
           title: t(translationKeys.screens.settings.form.model.provider.title),
           uniforms: {
-            hint: t(translationKeys.screens.settings.form.model.provider.hint),
-          },
+            hint: t(translationKeys.screens.settings.form.model.provider.hint)
+          }
         },
         modelId: {
           type: "string",
@@ -99,9 +99,9 @@ const createSettingsSchema = (
               label: `${model}${
                 recommendedModels.includes(model) ? " ⚡" : ""
               }`,
-              value: model,
-            })),
-          },
+              value: model
+            }))
+          }
         },
         apiKey: {
           type: "string",
@@ -110,16 +110,16 @@ const createSettingsSchema = (
             placeholder: t(
               translationKeys.screens.settings.form.model.apiKey.placeholder
             ),
-            hint: t(translationKeys.screens.settings.form.model.apiKey.hint),
-          },
-        },
+            hint: t(translationKeys.screens.settings.form.model.apiKey.hint)
+          }
+        }
       },
       required: ["provider", "modelId", "apiKey"],
-      additionalProperties: false,
-    },
+      additionalProperties: false
+    }
   },
   required: ["rewriteShortcut", "defaultCommand", "model"],
-  additionalProperties: false,
+  additionalProperties: false
 });
 
 type ValidationResult = { details: ErrorObject[] };
@@ -160,8 +160,8 @@ export function Settings() {
         model: {
           provider: loadedSettings.model.provider,
           modelId: loadedSettings.model.modelId,
-          apiKey: loadedSettings.model.apiKey,
-        },
+          apiKey: loadedSettings.model.apiKey
+        }
       });
     }
 
@@ -179,7 +179,7 @@ export function Settings() {
         selectedProvider,
         t,
         loadedSettings?.rewrites?.map((rewrite) => rewrite.commandWord) ?? [
-          formModel?.defaultCommand ?? "",
+          formModel?.defaultCommand ?? ""
         ],
         Object.keys(providerModels)
       ),
@@ -203,8 +203,8 @@ export function Settings() {
           ...nextModel,
           model: {
             ...nextModel.model,
-            modelId: allowedModels[0],
-          },
+            modelId: allowedModels[0]
+          }
         };
       }
 
@@ -214,8 +214,8 @@ export function Settings() {
         (prev: Settings | null) =>
           ({
             ...(prev ?? {}),
-            ...nextModel,
-          } as Settings)
+            ...nextModel
+          }) as Settings
       );
     },
     []

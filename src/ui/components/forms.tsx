@@ -4,7 +4,7 @@ import {
   connectField,
   filterDOMProps,
   type HTMLFieldProps,
-  useForm,
+  useForm
 } from "uniforms";
 import { units } from "../styles/dimensions";
 import { TrashIcon, WrenchIcon, StopIcon } from "@heroicons/react/24/solid";
@@ -176,7 +176,7 @@ export const ShortcutRecorderField = connectField<ShortcutRecorderFieldProps>(
       excludedShortcuts: [],
       excludedModKeys: [],
       maxModKeys: 3,
-      minModKeys: 1,
+      minModKeys: 1
     });
 
     useEffect(() => {
@@ -203,7 +203,7 @@ export const ShortcutRecorderField = connectField<ShortcutRecorderFieldProps>(
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap: units(1),
+            gap: units(1)
           }}
         >
           <IconButton

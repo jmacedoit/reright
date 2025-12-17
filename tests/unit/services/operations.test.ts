@@ -1,32 +1,32 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   parseClipboardContent,
-  OperationsService,
+  OperationsService
 } from "../../../src/services/operations";
 import { Rewrite } from "../../../src/types/general";
 import { LlmService } from "../../../src/services/llm";
 
 vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
   readText: vi.fn(),
-  writeText: vi.fn(),
+  writeText: vi.fn()
 }));
 
 const defaultRewrites: Rewrite[] = [
   {
     name: "Fix",
     commandWord: "fix",
-    instructions: "Fix spelling, grammar, formatting and capitalization.",
+    instructions: "Fix spelling, grammar, formatting and capitalization."
   },
   {
     name: "Improve",
     commandWord: "improve",
-    instructions: "Improve the writing while preserving meaning.",
+    instructions: "Improve the writing while preserving meaning."
   },
   {
     name: "Translate",
     commandWord: "translate",
-    instructions: "Translate to English.",
-  },
+    instructions: "Translate to English."
+  }
 ];
 
 const defaultSeparator = "///";
@@ -42,7 +42,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Fix spelling, grammar, formatting and capitalization.",
+      instructions: "Fix spelling, grammar, formatting and capitalization."
     });
   });
 
@@ -56,7 +56,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Improve the writing while preserving meaning.",
+      instructions: "Improve the writing while preserving meaning."
     });
   });
 
@@ -70,7 +70,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "make it more formal",
+      instructions: "make it more formal"
     });
   });
 
@@ -106,7 +106,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Improve the writing while preserving meaning.",
+      instructions: "Improve the writing while preserving meaning."
     });
   });
 
@@ -120,7 +120,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "part one",
-      instructions: "part two///part three",
+      instructions: "part two///part three"
     });
   });
 
@@ -134,7 +134,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Fix spelling, grammar, formatting and capitalization.",
+      instructions: "Fix spelling, grammar, formatting and capitalization."
     });
   });
 
@@ -148,7 +148,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Fix spelling, grammar, formatting and capitalization.",
+      instructions: "Fix spelling, grammar, formatting and capitalization."
     });
   });
 
@@ -173,7 +173,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello world",
-      instructions: "Fix spelling, grammar, formatting and capitalization.",
+      instructions: "Fix spelling, grammar, formatting and capitalization."
     });
   });
 
@@ -187,7 +187,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello///world",
-      instructions: "Improve the writing while preserving meaning.",
+      instructions: "Improve the writing while preserving meaning."
     });
   });
 
@@ -201,7 +201,7 @@ describe("parseClipboardContent", () => {
 
     expect(result).toEqual({
       text: "Hello",
-      instructions: "custom instructions",
+      instructions: "custom instructions"
     });
   });
 
@@ -228,7 +228,7 @@ describe("OperationsService.rewriteClipboard", () => {
     clipboardModule = await import("@tauri-apps/plugin-clipboard-manager");
 
     mockLlmService = {
-      transformText: vi.fn().mockResolvedValue("transformed text"),
+      transformText: vi.fn().mockResolvedValue("transformed text")
     } as unknown as LlmService;
 
     operationsService = new OperationsService(mockLlmService);

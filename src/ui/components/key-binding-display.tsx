@@ -46,11 +46,11 @@ function getKeyMap(os: string) {
       os === "macos"
         ? "⌘"
         : os === "windows"
-        ? "⊞"
-        : os === "linux"
-        ? "Super"
-        : "Meta",
-    Super: "Super",
+          ? "⊞"
+          : os === "linux"
+            ? "Super"
+            : "Meta",
+    Super: "Super"
   };
 }
 
