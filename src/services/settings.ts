@@ -34,18 +34,18 @@ const defaultSettings: Settings = {
       name: "Fix",
       commandWord: "fix",
       instructions:
-        "Fix spelling, grammar, formatting and capitalization; don't change content and style."
+        "Fix spelling, grammar, formatting and capitalization; don't change content and style"
     },
     {
       name: "Improve",
       commandWord: "improve",
       instructions:
-        "Improve the writing of text while preserving its original meaning and intent."
+        "Improve the writing of text while preserving its original meaning and intent"
     },
     {
       name: "Explain",
       commandWord: "explain",
-      instructions: "Explain the code/text in a clear and concise language."
+      instructions: "Explain the code/text in a clear and concise language"
     },
     {
       name: "Translate to english",
@@ -55,7 +55,7 @@ const defaultSettings: Settings = {
     {
       name: "Summarize",
       commandWord: "summarize",
-      instructions: "Summarize the text make it more concise."
+      instructions: "Write the text in a shortened version"
     }
   ],
   commandSeparator: "///",
