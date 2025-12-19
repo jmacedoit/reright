@@ -22,17 +22,20 @@ sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" src-tauri/tauri
 # Update package.json
 sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" package.json
 
+# Update Cargo.toml
+sed -i '' "s/^version = \"[^\"]*\"/version = \"$VERSION\"/" src-tauri/Cargo.toml
+
 # Show changes
 echo ""
 echo "Updated files:"
-git diff src-tauri/tauri.conf.json package.json
+git diff src-tauri/tauri.conf.json package.json src-tauri/Cargo.toml
 
 echo ""
 read -p "Commit and push branch $BRANCH? (y/n) " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  git add src-tauri/tauri.conf.json package.json
+  git add src-tauri/tauri.conf.json package.json src-tauri/Cargo.toml
   git commit -m "Bump version to $VERSION"
   git push -u origin "$BRANCH"
 
