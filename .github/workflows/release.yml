@@ -28,6 +28,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+          shared-key: "release"
 
       - name: Install frontend dependencies
         run: npm ci
