@@ -8,6 +8,7 @@
     "opener:default",
     "store:default",
     "process:default",
+    "updater:default",
     "core:app:allow-default-window-icon",
     "core:app:allow-set-dock-visibility",
     "autostart:allow-enable",

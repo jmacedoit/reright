@@ -8,6 +8,13 @@ const translations = {
         configure: "Configure Reright",
         quit: "Quit"
       },
+      update: {
+        title: "Update available",
+        description: "A new version of Reright is available.",
+        versionLabel: "Version {{version}}",
+        updateButton: "Update & Restart",
+        laterButton: "Later"
+      },
       menu: {
         howTo: "How to use",
         rewrites: "Rewrites",
