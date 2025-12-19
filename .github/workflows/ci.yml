@@ -80,4 +80,4 @@ jobs:
 
       - name: Build Tauri app
         if: steps.filter.outputs.rust == 'true'
-        run: npm run tauri:build
+        run: npm run tauri:build -- --bundles deb --config '{"bundle":{"createUpdaterArtifacts":false}}'

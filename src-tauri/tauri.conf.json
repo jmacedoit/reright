@@ -29,6 +29,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "resources": ["icons/loader-icon.png", "icons/tray-icon.png"],
     "macOS": {
       "signingIdentity": "-"
@@ -41,5 +42,13 @@
       "icons/icon.ico",
       "icons/loader-icon.png"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/jmacedoit/reright/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDA1OEEyRjA3MDk5NDJFNDEKUldSQkxwUUpCeStLQlNES285MFVqVFhmcGkxQmxDcVVzZTlpZ0pxWkZIZU1sY3hWYSs3NjJBTmYK"
+    }
   }
 }

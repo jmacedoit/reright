@@ -3,9 +3,15 @@ import {
   enable as enableAutostart,
   disable as disableAutostart
 } from "@tauri-apps/plugin-autostart";
+import { Update } from "@tauri-apps/plugin-updater";
 import { useCallback, useEffect, useState } from "react";
 import { Settings, settingsService } from "../services/settings";
 import { llmService } from "../services/llm";
+import {
+  checkForUpdates,
+  downloadAndInstallUpdate,
+  UpdateInfo
+} from "../services/updater";
 import { windowUiHelper } from "../window-ui-helper";
 import {
   Routes,
@@ -22,6 +28,8 @@ import { Rewrites } from "./screens/rewrites";
 import color from "color";
 import { HowTo } from "./screens/howto";
 import { SettingsContext } from "./contexts/settings";
+import { ModalContainer, ModalContent, ModalActions } from "./components/modal";
+import { NormalButton } from "./components/buttons";
 import { debounce, isEqual, trim } from "lodash";
 import { useTranslation } from "react-i18next";
 import { translationKeys } from "./translations";
@@ -167,6 +175,9 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loadedSettings, setLoadedSettings] = useState<Settings | null>(null);
+  const [updateInfo, setUpdateInfo] = useState<UpdateInfo | null>(null);
+  const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -188,6 +199,13 @@ function App() {
           });
         }
       );
+
+      const updateResult = await checkForUpdates();
+
+      if (updateResult.available) {
+        setUpdateInfo(updateResult.info);
+        setPendingUpdate(updateResult.update);
+      }
     }
 
     initialize();
@@ -203,6 +221,24 @@ function App() {
 
       onUnmount();
     };
+  }, []);
+
+  const handleInstallUpdate = useCallback(async () => {
+    if (!pendingUpdate) return;
+
+    setIsUpdating(true);
+
+    try {
+      await downloadAndInstallUpdate(pendingUpdate);
+    } catch (error) {
+      log.error("Failed to install update", error);
+      setIsUpdating(false);
+    }
+  }, [pendingUpdate]);
+
+  const handleDismissUpdate = useCallback(() => {
+    setUpdateInfo(null);
+    setPendingUpdate(null);
   }, []);
 
   useEffect(() => {
@@ -283,6 +319,37 @@ function App() {
     >
       <Container>
         <WindowDragger data-tauri-drag-region />
+
+        <ModalContainer
+          id="update-modal"
+          isOpen={!!updateInfo}
+          onRequestClose={isUpdating ? undefined : handleDismissUpdate}
+        >
+          <ModalContent
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <h2>{t(translationKeys.update.title)}</h2>
+            <p>{t(translationKeys.update.description)}</p>
+            <p>
+              <strong>
+                {t(translationKeys.update.versionLabel, {
+                  version: updateInfo?.version
+                })}
+              </strong>
+            </p>
+            <ModalActions>
+              <NormalButton onClick={handleDismissUpdate} disabled={isUpdating}>
+                {t(translationKeys.update.laterButton)}
+              </NormalButton>
+
+              <NormalButton onClick={handleInstallUpdate} disabled={isUpdating}>
+                {isUpdating ? "..." : t(translationKeys.update.updateButton)}
+              </NormalButton>
+            </ModalActions>
+          </ModalContent>
+        </ModalContainer>
 
         <Menu>
           <MenuButton

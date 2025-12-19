@@ -40,6 +40,7 @@
     "@tauri-apps/plugin-os": "^2.3.2",
     "@tauri-apps/plugin-process": "^2.3.1",
     "@tauri-apps/plugin-store": "^2.4.1",
+    "@tauri-apps/plugin-updater": "^2.9.0",
     "@wyw-in-js/babel-preset": "^0.8.0",
     "ajv": "^8.17.1",
     "color": "^5.0.3",
