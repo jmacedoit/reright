@@ -25,9 +25,17 @@
 
 ---
 
-Finding yourself constantly alt-tabbing between Slack/Notion/Docs and ChatGPT just to make small text adjustments? **Reright** has your back. It lets you configure custom AI-powered rewrite commands and lives quietly in your system tray; ready whenever you copy text, hit a shortcut, and paste back polished results without leaving your current app.
+You shouldn't have to break your flow to alt-tab to ChatGPT for every small adjustment. **Reright** lives quietly in your system tray, turning your clipboard into a universal AI command palette. Copy text, trigger a global shortcut, and paste the result back without ever leaving the app you’re in.
 
-Additionally, if you enjoy features like writing enhancement or translation in tools like Notion but don’t want another subscription, **Reright** is a free alternative. The only cost is API usage, which remains minimal.
+Reright works in the high-frequency spots where you spend your day:
+
+* **Slack & email**: Rescue your typo-ridden brain-dump Slack messages, shift tones, or turn intent into a full email in seconds.
+* **Terminal & code**: Generate shell one-liners, SQL queries, regexes, or quick code snippets from a simple description.
+* **Figma**: Generate instant microcopy for buttons, empty states, and error messages.
+* **GitHub**: Transform rough notes into crisp, respectful PR review comments.
+* **Notion & Docs**: Structure messy thoughts, translate content, and fix grammar instantly.
+
+AI features are everywhere (Grammarly, Notion, etc.) and they all want a subscription. Skip the subscription with Reright: bring your own API key (OpenAI, Anthropic, or Gemini) and pay only for what you use, keeping costs minimal.
 
 ## Download
 
@@ -38,7 +46,7 @@ Additionally, if you enjoy features like writing enhancement or translation in t
 ## Preview
 
 <p align="left">
-  <img style="border-radius: 4px; overflow: hidden; border: 1px solid grey" src="docs/images/preview.png" alt="Reright Preview" width="500">
+  <img style="border-radius: 4px; overflow: hidden; border: 1px solid grey" src="docs/images/preview.png" alt="Reright Preview" width="700">
 </p>
 
 ## How It Works
@@ -109,29 +117,16 @@ Instead of using the keyboard shortcut, you can also trigger rewrites from the *
 
 ## Features
 
-- 🎯 **System tray integration** — Always accessible, never in the way
-- ⌨️ **Global keyboard shortcuts** — Transform text without leaving your current app
-- 🔧 **Custom rewrite commands** — Create your own transformations (fix, enhance, translate, etc.)
-- 💬 **Ad-hoc instructions** — One-time custom prompts when you need flexibility
-- 🤖 **Multiple AI providers** — Works with OpenAI, Anthropic (Claude), and Google (Gemini)
-- 🚀 **Fast & lightweight** — Built with Tauri for native performance
+- 🎯 **System tray integration**: Always accessible, never in the way
+- ⌨️ **Global keyboard shortcuts**: Transform text without leaving your current app
+- 🔧 **Custom rewrite commands**: Create your own transformations (fix, enhance, translate, etc.)
+- 💬 **Ad-hoc instructions**: One-time custom prompts when you need flexibility
+- 🤖 **Multiple AI providers**: Works with OpenAI, Anthropic (Claude), and Google (Gemini)
+- 🚀 **Fast & lightweight**: Built with Tauri for native performance
 
 ## Contributing
 
-You are welcome to come up with suggestions and pull requests. Please try to be consistent with the remaining codebase in terms of code style.
-
-### Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run in development mode
-npm run tauri:dev
-
-# Build
-npm run tauri:build
-```
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to get started.
 
 ## License
 
