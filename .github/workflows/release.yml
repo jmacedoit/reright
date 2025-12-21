@@ -9,7 +9,17 @@ jobs:
   release:
     permissions:
       contents: write
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: --target universal-apple-darwin
+          - platform: ubuntu-22.04
+            args: ''
+          - platform: windows-latest
+            args: ''
+    runs-on: ${{ matrix.platform }}
 
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +32,13 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-apple-darwin, x86_64-apple-darwin
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -43,9 +59,16 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: 'Reright ${{ github.ref_name }}'
           releaseBody: |
-            Download the .dmg file below to install Reright on macOS.
+            ## Download
 
-            **First launch:** Since the app is not notarized, macOS will block it. To open:
+            | Platform | Download |
+            |----------|----------|
+            | **macOS** | `.dmg` file |
+            | **Windows** | `.msi` or `.exe` installer |
+            | **Linux** | `.deb` or `.AppImage` |
+
+            ### macOS First Launch
+            Since the app is not notarized, macOS will block it. To open:
             1. Try to open the app (it will be blocked)
             2. Go to **System Settings → Privacy & Security**
             3. Scroll down and click **Open Anyway** next to the Reright message
@@ -53,6 +76,5 @@ jobs:
             Or run in Terminal: `xattr -cr /Applications/Reright.app`
           releaseDraft: true
           prerelease: false
-          args: --target universal-apple-darwin
+          args: ${{ matrix.args }}
           updaterJsonKeepUniversal: true
-
