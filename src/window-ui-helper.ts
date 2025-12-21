@@ -10,6 +10,7 @@ import { exit } from "@tauri-apps/plugin-process";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { translationKeys } from "./ui/translations";
 import { log } from "./utils/log";
+import { platform } from "@tauri-apps/plugin-os";
 
 const loaderIconResource = "icons/loader-icon.png";
 const trayIconResource = "icons/tray-icon.png";
@@ -36,7 +37,9 @@ export class WindowUiHelper {
 
       event.preventDefault();
 
-      setDockVisibility(false);
+      if (platform() === "macos") {
+        setDockVisibility(false);
+      }
     });
   }
 
@@ -86,7 +89,10 @@ export class WindowUiHelper {
           text: this.t(translationKeys.tray.configure),
           action: async () => {
             const window = await getCurrentWindow();
-            await setDockVisibility(true);
+
+            if (platform() === "macos") {
+              await setDockVisibility(true);
+            }
 
             window.show();
             window.setFocus();
