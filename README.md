@@ -39,9 +39,13 @@ AI features are everywhere (Grammarly, Notion, etc.) and they all want a subscri
 
 ## Download
 
-**macOS:** [Download the latest release](https://github.com/jmacedoit/reright/releases/latest)
+[Download the latest release](https://github.com/jmacedoit/reright/releases/latest) for your platform:
 
-> Support for other platforms is under consideration. Show your interest by starring the repo and [supporting me](https://buymeacoffee.com/jmacedo).
+| Platform | Download |
+|----------|----------|
+| **macOS** | `.dmg` file |
+| **Windows** | `.msi` or `.exe` installer |
+| **Linux** | `.deb`, `.rpm`, or `.AppImage` |
 
 ## Preview
 
