@@ -65,7 +65,7 @@ jobs:
             |----------|----------|
             | **macOS** | `.dmg` file |
             | **Windows** | `.msi` or `.exe` installer |
-            | **Linux** | `.deb` or `.AppImage` |
+            | **Linux** | `.deb`, `.rpm`, or `.AppImage` |
 
             ### macOS First Launch
             Since the app is not notarized, macOS will block it. To open:
@@ -74,6 +74,15 @@ jobs:
             3. Scroll down and click **Open Anyway** next to the Reright message
 
             Or run in Terminal: `xattr -cr /Applications/Reright.app`
+
+            ### Windows First Launch
+            Windows SmartScreen may show a warning since the app isn't signed. Click **More info** → **Run anyway** to proceed.
+
+            ### Linux First Launch
+            If using the AppImage, make it executable first:
+            ```bash
+            chmod +x Reright_*.AppImage
+            ```
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
