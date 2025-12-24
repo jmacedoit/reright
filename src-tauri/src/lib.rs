@@ -1,3 +1,5 @@
+mod ergonomic;
+
 #[tauri::command]
 fn test(name: &str) -> String {
     format!("Test, {}! Interop with Rust works!", name)
@@ -15,7 +17,14 @@ pub fn run() {
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![test])
+        .invoke_handler(tauri::generate_handler![
+            test,
+            ergonomic::get_ergonomic_capabilities,
+            ergonomic::check_ergonomic_permissions,
+            ergonomic::request_ergonomic_permissions,
+            ergonomic::simulate_copy,
+            ergonomic::simulate_paste
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

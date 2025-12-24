@@ -5,6 +5,7 @@ import {
 } from "../../../src/services/operations";
 import { Rewrite } from "../../../src/types/general";
 import { LlmService } from "../../../src/services/llm";
+import { InputSimulationService } from "../../../src/services/input-simulation";
 
 vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
   readText: vi.fn(),
@@ -219,6 +220,7 @@ describe("parseClipboardContent", () => {
 
 describe("OperationsService.rewriteClipboard", () => {
   let mockLlmService: LlmService;
+  let mockInputSimulationService: InputSimulationService;
   let operationsService: OperationsService;
   let clipboardModule: typeof import("@tauri-apps/plugin-clipboard-manager");
 
@@ -231,7 +233,15 @@ describe("OperationsService.rewriteClipboard", () => {
       transformText: vi.fn().mockResolvedValue("transformed text")
     } as unknown as LlmService;
 
-    operationsService = new OperationsService(mockLlmService);
+    mockInputSimulationService = {
+      simulateCopy: vi.fn().mockResolvedValue(undefined),
+      simulatePaste: vi.fn().mockResolvedValue(undefined)
+    } as unknown as InputSimulationService;
+
+    operationsService = new OperationsService(
+      mockLlmService,
+      mockInputSimulationService
+    );
   });
 
   it("invokes llmService.transformText with parsed text and instructions", async () => {
@@ -274,5 +284,63 @@ describe("OperationsService.rewriteClipboard", () => {
 
     expect(mockLlmService.transformText).not.toHaveBeenCalled();
     expect(clipboardModule.writeText).not.toHaveBeenCalled();
+  });
+});
+
+describe("OperationsService.rewrite", () => {
+  let mockLlmService: LlmService;
+  let mockInputSimulationService: InputSimulationService;
+  let operationsService: OperationsService;
+  let clipboardModule: typeof import("@tauri-apps/plugin-clipboard-manager");
+
+  beforeEach(async () => {
+    vi.clearAllMocks();
+
+    clipboardModule = await import("@tauri-apps/plugin-clipboard-manager");
+
+    mockLlmService = {
+      transformText: vi.fn().mockResolvedValue("transformed text")
+    } as unknown as LlmService;
+
+    mockInputSimulationService = {
+      simulateCopy: vi.fn().mockResolvedValue(undefined),
+      simulatePaste: vi.fn().mockResolvedValue(undefined)
+    } as unknown as InputSimulationService;
+
+    operationsService = new OperationsService(
+      mockLlmService,
+      mockInputSimulationService
+    );
+  });
+
+  it("calls simulateCopy and simulatePaste when ergonomic mode is enabled", async () => {
+    vi.mocked(clipboardModule.readText).mockResolvedValue("Hello world");
+
+    await operationsService.rewrite(defaultRewrites, "fix", "///", true);
+
+    expect(mockInputSimulationService.simulateCopy).toHaveBeenCalled();
+    expect(mockInputSimulationService.simulatePaste).toHaveBeenCalled();
+  });
+
+  it("does not call simulateCopy or simulatePaste when ergonomic mode is disabled", async () => {
+    vi.mocked(clipboardModule.readText).mockResolvedValue("Hello world");
+
+    await operationsService.rewrite(defaultRewrites, "fix", "///", false);
+
+    expect(mockInputSimulationService.simulateCopy).not.toHaveBeenCalled();
+    expect(mockInputSimulationService.simulatePaste).not.toHaveBeenCalled();
+  });
+
+  it("still processes clipboard content in ergonomic mode", async () => {
+    vi.mocked(clipboardModule.readText).mockResolvedValue("Hello world");
+    vi.mocked(mockLlmService.transformText).mockResolvedValue("Improved text");
+
+    await operationsService.rewrite(defaultRewrites, "fix", "///", true);
+
+    expect(mockLlmService.transformText).toHaveBeenCalledWith(
+      "Fix spelling, grammar, formatting and capitalization.",
+      "Hello world"
+    );
+    expect(clipboardModule.writeText).toHaveBeenCalledWith("Improved text");
   });
 });

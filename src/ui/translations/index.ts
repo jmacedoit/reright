@@ -109,6 +109,14 @@ const translations = {
             autostart: {
               title: "Autostart",
               hint: "Whether to start automatically when the system boots"
+            },
+            ergonomicMode: {
+              title: "Ergonomic mode",
+              hint: "Select text and rewrite it in-place (copy + paste will be done automatically)",
+              permissionsRequired: "Accessibility permissions required",
+              permissionsMessage:
+                "To enable ergonomic mode, Reright needs accessibility permissions to simulate keyboard shortcuts. Please grant access in System Settings, then restart the app.",
+              permissionsButton: "Open System Settings"
             }
           }
         },
