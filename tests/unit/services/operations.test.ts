@@ -5,6 +5,7 @@ import {
 } from "../../../src/services/operations";
 import { Rewrite } from "../../../src/types/general";
 import { LlmService } from "../../../src/services/llm";
+import { InputSimulationService } from "../../../src/services/input-simulation";
 
 vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
   readText: vi.fn(),
@@ -219,6 +220,7 @@ describe("parseClipboardContent", () => {
 
 describe("OperationsService.rewriteClipboard", () => {
   let mockLlmService: LlmService;
+  let mockInputSimulationService: InputSimulationService;
   let operationsService: OperationsService;
   let clipboardModule: typeof import("@tauri-apps/plugin-clipboard-manager");
 
@@ -231,7 +233,15 @@ describe("OperationsService.rewriteClipboard", () => {
       transformText: vi.fn().mockResolvedValue("transformed text")
     } as unknown as LlmService;
 
-    operationsService = new OperationsService(mockLlmService);
+    mockInputSimulationService = {
+      simulateCopy: vi.fn().mockResolvedValue(undefined),
+      simulatePaste: vi.fn().mockResolvedValue(undefined)
+    } as unknown as InputSimulationService;
+
+    operationsService = new OperationsService(
+      mockLlmService,
+      mockInputSimulationService
+    );
   });
 
   it("invokes llmService.transformText with parsed text and instructions", async () => {

@@ -18,6 +18,16 @@ import {
 } from "../components/forms";
 import { PageContainer } from "../components/containers";
 import { SettingsContext } from "../contexts/settings";
+import {
+  ergonomicRequirementsService,
+  ErgonomicCapabilities
+} from "../../services/ergonomic-requirements";
+import {
+  ModalContainer,
+  ModalContent,
+  ModalActions
+} from "../components/modal";
+import { NormalButton } from "../components/buttons";
 
 /*
  * Styles
@@ -42,13 +52,15 @@ type SettingsFormData = {
     apiKey: string;
   };
   autostart: boolean;
+  ergonomicMode: boolean;
 };
 
 const createSettingsSchema = (
   selectedProvider: string,
   t: TFunction,
   rewritesCommandWords: string[],
-  allowedProviders: string[]
+  allowedProviders: string[],
+  ergonomicModeHint: string
 ): JSONSchemaType<SettingsFormData> => ({
   type: "object",
   properties: {
@@ -125,6 +137,13 @@ const createSettingsSchema = (
       uniforms: {
         hint: t(translationKeys.screens.settings.form.autostart.hint)
       }
+    },
+    ergonomicMode: {
+      type: "boolean",
+      title: t(translationKeys.screens.settings.form.ergonomicMode.title),
+      uniforms: {
+        hint: ergonomicModeHint
+      }
     }
   },
   required: ["rewriteShortcut", "defaultCommand", "model"],
@@ -161,6 +180,31 @@ export function Settings() {
   const loadedSettings: Settings = settingsContext.settings!;
   const setLoadedSettings = settingsContext.updateSettings;
 
+  // Ergonomic mode state
+  const [ergonomicCapabilities, setErgonomicCapabilities] =
+    useState<ErgonomicCapabilities | null>(null);
+  const [hasErgonomicPermissions, setHasErgonomicPermissions] = useState(false);
+  const [showPermissionsModal, setShowPermissionsModal] = useState(false);
+
+  // Load ergonomic capabilities and permissions on mount
+  useEffect(() => {
+    async function loadErgonomicState() {
+      const capabilities = await ergonomicRequirementsService.getCapabilities();
+      setErgonomicCapabilities(capabilities);
+
+      if (capabilities.requiresPermissions) {
+        const permissions =
+          await ergonomicRequirementsService.checkPermissions();
+        setHasErgonomicPermissions(permissions);
+      } else {
+        // No permissions required means we have them
+        setHasErgonomicPermissions(true);
+      }
+    }
+
+    loadErgonomicState();
+  }, []);
+
   useEffect(() => {
     async function load() {
       setFormModel({
@@ -171,7 +215,8 @@ export function Settings() {
           modelId: loadedSettings.model.modelId,
           apiKey: loadedSettings.model.apiKey
         },
-        autostart: loadedSettings.autostart
+        autostart: loadedSettings.autostart,
+        ergonomicMode: loadedSettings.ergonomicMode
       });
     }
 
@@ -183,6 +228,8 @@ export function Settings() {
     [formModel]
   );
 
+  const showErgonomicToggle = ergonomicCapabilities?.platformSupported ?? false;
+
   const schema = useMemo(
     () =>
       createSettingsSchema(
@@ -191,7 +238,8 @@ export function Settings() {
         loadedSettings?.rewrites?.map((rewrite) => rewrite.commandWord) ?? [
           formModel?.defaultCommand ?? ""
         ],
-        Object.keys(providerModels)
+        Object.keys(providerModels),
+        t(translationKeys.screens.settings.form.ergonomicMode.hint)
       ),
     [selectedProvider, t, loadedSettings]
   );
@@ -218,6 +266,27 @@ export function Settings() {
         };
       }
 
+      // Handle ergonomic mode toggle - check permissions before enabling
+      const isEnablingErgonomicMode =
+        nextModel.ergonomicMode && !formModel?.ergonomicMode;
+
+      if (isEnablingErgonomicMode) {
+        const capabilities =
+          ergonomicCapabilities ??
+          (await ergonomicRequirementsService.getCapabilities());
+
+        if (capabilities.requiresPermissions && !hasErgonomicPermissions) {
+          // Show permissions modal and don't enable the setting
+          setShowPermissionsModal(true);
+
+          // Revert the ergonomic mode change
+          nextModel = {
+            ...nextModel,
+            ergonomicMode: false
+          };
+        }
+      }
+
       setFormModel(nextModel);
 
       setLoadedSettings(
@@ -228,8 +297,17 @@ export function Settings() {
           }) as Settings
       );
     },
-    []
+    [formModel, ergonomicCapabilities, hasErgonomicPermissions]
   );
+
+  const handleRequestPermissions = useCallback(async () => {
+    await ergonomicRequirementsService.requestPermissions();
+    setShowPermissionsModal(false);
+  }, []);
+
+  const handleClosePermissionsModal = useCallback(() => {
+    setShowPermissionsModal(false);
+  }, []);
 
   if (!formModel) {
     return <PageContainer />;
@@ -238,6 +316,42 @@ export function Settings() {
   return (
     <PageContainer>
       <h2>{t(translationKeys.screens.settings.title)}</h2>
+
+      <ModalContainer
+        id="permissions-modal"
+        isOpen={showPermissionsModal}
+        onRequestClose={handleClosePermissionsModal}
+      >
+        <ModalContent
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <h2>
+            {t(
+              translationKeys.screens.settings.form.ergonomicMode
+                .permissionsRequired
+            )}
+          </h2>
+          <p>
+            {t(
+              translationKeys.screens.settings.form.ergonomicMode
+                .permissionsMessage
+            )}
+          </p>
+          <ModalActions>
+            <NormalButton onClick={handleClosePermissionsModal}>
+              {t(translationKeys.update.laterButton)}
+            </NormalButton>
+            <NormalButton onClick={handleRequestPermissions}>
+              {t(
+                translationKeys.screens.settings.form.ergonomicMode
+                  .permissionsButton
+              )}
+            </NormalButton>
+          </ModalActions>
+        </ModalContent>
+      </ModalContainer>
 
       <FormsContainer>
         <AutoForm<SettingsFormData>
@@ -276,6 +390,12 @@ export function Settings() {
           <FormRow>
             <AutoField name="autostart" component={SwitchField} />
           </FormRow>
+
+          {showErgonomicToggle && (
+            <FormRow>
+              <AutoField name="ergonomicMode" component={SwitchField} />
+            </FormRow>
+          )}
         </AutoForm>
       </FormsContainer>
     </PageContainer>
