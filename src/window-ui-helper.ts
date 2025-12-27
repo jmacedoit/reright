@@ -49,7 +49,8 @@ export class WindowUiHelper {
     languages: string[],
     defaultCommandWord: string,
     defaultShortcut: string,
-    commandSeparator: string
+    commandSeparator: string,
+    ergonomicMode: boolean
   ) {
     const separator = "⸻";
     const menu = await Menu.new({
@@ -57,10 +58,11 @@ export class WindowUiHelper {
         {
           text: this.t(translationKeys.tray.defaultRewrite),
           action: async () =>
-            await this.rewriteClipboard(
+            await this.rewrite(
               rewrites,
               defaultCommandWord,
-              commandSeparator
+              commandSeparator,
+              ergonomicMode
             )
         },
         {
@@ -71,10 +73,11 @@ export class WindowUiHelper {
           id: rewrite.name,
           text: rewrite.name,
           action: async () =>
-            await this.rewriteClipboard(
+            await this.rewrite(
               rewrites,
               rewrite.commandWord,
-              commandSeparator
+              commandSeparator,
+              ergonomicMode
             ),
           ...(defaultCommandWord === rewrite.commandWord
             ? { accelerator: defaultShortcut }
@@ -116,7 +119,8 @@ export class WindowUiHelper {
     shortcut: string,
     defaultCommand: string,
     rewrites: Rewrite[],
-    commandSeparator: string
+    commandSeparator: string,
+    ergonomicMode: boolean
   ) {
     try {
       if (this.rewriteShortcut) {
@@ -125,10 +129,11 @@ export class WindowUiHelper {
 
       await register(shortcut, async (event) => {
         if (event.state === "Pressed") {
-          await this.rewriteClipboard(
+          await this.rewrite(
             rewrites,
             defaultCommand,
-            commandSeparator
+            commandSeparator,
+            ergonomicMode
           );
         }
       });
@@ -141,10 +146,11 @@ export class WindowUiHelper {
     }
   }
 
-  async rewriteClipboard(
+  async rewrite(
     rewrites: Rewrite[],
     baseCommand: string,
-    commandSeparator: string
+    commandSeparator: string,
+    ergonomicMode: boolean
   ) {
     const iconPath = await resolveResource(loaderIconResource);
 
@@ -152,10 +158,11 @@ export class WindowUiHelper {
 
     try {
       await Promise.all([
-        this.operationsService.rewriteClipboard(
+        this.operationsService.rewrite(
           rewrites,
           baseCommand,
-          commandSeparator
+          commandSeparator,
+          ergonomicMode
         ),
         sleep(1000)
       ]);

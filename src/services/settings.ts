@@ -20,6 +20,7 @@ export type Settings = {
     apiKey: string;
   };
   autostart: boolean;
+  ergonomicMode: boolean;
 };
 
 /*
@@ -65,7 +66,8 @@ const defaultSettings: Settings = {
     provider: "openai",
     apiKey: ""
   },
-  autostart: true
+  autostart: true,
+  ergonomicMode: false
 };
 
 /*

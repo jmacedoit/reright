@@ -119,6 +119,10 @@ Provide custom, one-time instructions after `///` for complete flexibility.
 
 Instead of using the keyboard shortcut, you can also trigger rewrites from the **tray menu** in your system bar. This gives you quick access to all your configured rewrites and works the same way—just select your text, copy it, choose a rewrite from the tray menu, and paste the result.
 
+### Ergonomic mode (supported on macOS and Windows)
+
+With ergonomic mode enabled (turn it on in Settings), you can rewrite text without copying it to the clipboard. Simply select the text, then trigger the rewrite using the keyboard shortcut or the tray menu option.
+
 ## Features
 
 - 🎯 **System tray integration**: Always accessible, never in the way

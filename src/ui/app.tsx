@@ -252,7 +252,8 @@ function App() {
         loadedSettings.languages,
         loadedSettings.defaultCommand,
         loadedSettings.rewriteShortcut,
-        loadedSettings.commandSeparator
+        loadedSettings.commandSeparator,
+        loadedSettings.ergonomicMode
       );
 
       const updateRewriteShortcutPromise = (async () => {
@@ -263,7 +264,8 @@ function App() {
             loadedSettings.rewriteShortcut,
             loadedSettings.defaultCommand,
             loadedSettings.rewrites,
-            loadedSettings.commandSeparator
+            loadedSettings.commandSeparator,
+            loadedSettings.ergonomicMode
           );
         }
       })();

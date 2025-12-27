@@ -1,8 +1,13 @@
 import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { llmService, LlmService } from "./llm";
+import {
+  inputSimulationService,
+  InputSimulationService
+} from "./input-simulation";
 import { Rewrite } from "../types/general";
 import { trim } from "lodash";
 import { log } from "../utils/log";
+import { sleep } from "../utils/general";
 
 /*
  * Types.
@@ -65,9 +70,46 @@ export function parseClipboardContent(
 
 export class OperationsService {
   llmService: LlmService;
+  inputSimulationService: InputSimulationService;
 
-  constructor(llmService: LlmService) {
+  constructor(
+    llmService: LlmService,
+    inputSimulationService: InputSimulationService
+  ) {
     this.llmService = llmService;
+    this.inputSimulationService = inputSimulationService;
+  }
+
+  async rewrite(
+    rewrites: Rewrite[],
+    baseCommand: string,
+    commandSeparator: string,
+    ergonomicMode: boolean
+  ) {
+    if (ergonomicMode) {
+      try {
+        await this.inputSimulationService.simulateCopy();
+        await sleep(100); // Allow clipboard to update
+      } catch (error) {
+        log.error(
+          "Failed to simulate copy, falling back to clipboard content:",
+          error
+        );
+      }
+    }
+
+    await this.rewriteClipboard(rewrites, baseCommand, commandSeparator);
+
+    if (ergonomicMode) {
+      try {
+        await this.inputSimulationService.simulatePaste();
+      } catch (error) {
+        log.error(
+          "Failed to simulate paste, result is still in clipboard:",
+          error
+        );
+      }
+    }
   }
 
   async rewriteClipboard(
@@ -100,4 +142,7 @@ export class OperationsService {
   }
 }
 
-export const operationsService = new OperationsService(llmService);
+export const operationsService = new OperationsService(
+  llmService,
+  inputSimulationService
+);
