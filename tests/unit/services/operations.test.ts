@@ -12,6 +12,14 @@ vi.mock("@tauri-apps/plugin-clipboard-manager", () => ({
   writeText: vi.fn()
 }));
 
+vi.mock("@tauri-apps/plugin-log", () => ({
+  attachConsole: vi.fn(),
+  debug: vi.fn(),
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn()
+}));
+
 const defaultRewrites: Rewrite[] = [
   {
     name: "Fix",

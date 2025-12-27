@@ -28,7 +28,7 @@ export async function checkForUpdates(): Promise<UpdateCheckResult> {
       };
     }
 
-    log.debug("No update available");
+    log.info("No update available");
 
     return { available: false };
   } catch (error) {
