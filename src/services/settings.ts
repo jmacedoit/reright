@@ -62,7 +62,7 @@ const defaultSettings: Settings = {
   ],
   commandSeparator: "///",
   model: {
-    modelId: "gpt-4o-mini",
+    modelId: "gpt-5.2",
     provider: "openai",
     apiKey: ""
   },
