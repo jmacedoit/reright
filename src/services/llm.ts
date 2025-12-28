@@ -39,6 +39,7 @@ export const providerModels = {
 
 export const recommendedModels = [
   "gpt-4o-mini",
+  "gpt-5.2",
   "claude-haiku-4-5",
   "gemini-flash-lite-latest"
 ];
