@@ -8,6 +8,10 @@ use windows::Win32::UI::Input::KeyboardAndMouse::{
 
 // Virtual key codes
 const VK_CONTROL: u16 = 0x11;
+const VK_SHIFT: u16 = 0x10;
+const VK_MENU: u16 = 0x12; // Alt key
+const VK_LWIN: u16 = 0x5B;
+const VK_RWIN: u16 = 0x5C;
 const VK_C: u16 = 0x43;
 const VK_V: u16 = 0x56;
 
@@ -27,9 +31,24 @@ pub fn simulate_paste() -> Result<(), String> {
     simulate_key_with_ctrl(VK_V)
 }
 
+/// Release all modifier keys that might be held down from the global shortcut
+/// Fixes issue where user shortcut modifiers interfere with sent key events
+fn release_all_modifiers() -> Result<(), String> {
+    // Release Shift, Alt, Win keys (but not Ctrl since we'll use it)
+    send_key_event(VK_SHIFT, true)?;
+    send_key_event(VK_MENU, true)?;
+    send_key_event(VK_LWIN, true)?;
+    send_key_event(VK_RWIN, true)?;
+    // Also release Ctrl in case it's held
+    send_key_event(VK_CONTROL, true)?;
+    Ok(())
+}
+
+/// Simulate a key press with Ctrl modifier
 fn simulate_key_with_ctrl(key_code: u16) -> Result<(), String> {
-    // Small delay to ensure previous keys are released
-    thread::sleep(Duration::from_millis(10));
+    // Release any modifiers that might be held from the global shortcut
+    release_all_modifiers()?;
+    thread::sleep(Duration::from_millis(20));
 
     // Press Ctrl
     send_key_event(VK_CONTROL, false)?;
@@ -50,7 +69,7 @@ fn simulate_key_with_ctrl(key_code: u16) -> Result<(), String> {
 }
 
 fn send_key_event(key_code: u16, key_up: bool) -> Result<(), String> {
-    // Get scan code for better compatibility with some applications
+    // Get scan code for better compatibility with some application
     let scan_code = unsafe { MapVirtualKeyW(key_code as u32, MAPVK_VK_TO_VSC) as u16 };
 
     let flags = if key_up {
