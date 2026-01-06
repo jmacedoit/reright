@@ -36,28 +36,47 @@ const defaultSettings: Settings = {
       name: "Fix",
       commandWord: "fix",
       instructions:
-        "Fix spelling, grammar, formatting and capitalization; don't change content and style"
+        "Fix spelling errors, grammar, formatting and capitalization; don't change content and style."
     },
     {
       name: "Improve",
       commandWord: "improve",
       instructions:
-        "Improve the writing of text while preserving its original meaning and intent"
+        "Improve the text to enhance its writing quality while maintaining its original meaning and intent."
     },
     {
       name: "Explain",
       commandWord: "explain",
-      instructions: "Explain the code/text in a clear and concise language"
+      instructions: "Explain the code/text in a clear and concise language."
     },
     {
       name: "Translate to english",
       commandWord: "entranslate",
-      instructions: "Translate the text to english"
+      instructions: "Translate the text to english."
     },
     {
-      name: "Summarize",
-      commandWord: "summarize",
-      instructions: "Write the text in a shortened version"
+      name: "Shorten",
+      commandWord: "short",
+      instructions:
+        "Rewrite the text in a shorter, more concise form without losing key ideas. Maintain the original narrative perspective (e.g., first person if used)."
+    },
+    {
+      name: "Work",
+      commandWord: "work",
+      instructions:
+        "Rewrite the following message to be clear and collaborative. Fix all spelling, grammar, formatting, and capitalization issues. Avoid blame, defensiveness, or retrospective justifications (e.g., references to having warned or said something before), unless strictly necessary, while keeping the original meaning intact. Where appropriate, introduce a gently positive and constructive undertone, emphasizing collaboration, openness, and forward momentum. If the message sounds overly pessimistic, make it slightly more uplifting without exaggeration or artificial optimism. You can even add a touch of humor to handle difficult situations. The tone should feel human, natural and warm, suitable for a workplace slack message, email or internal communication in a relatively casual professional environment; Avoid sounding cynical; Avoid em dashes, keep original text emojis if it makes sense to."
+    },
+    {
+      name: "Shell",
+      commandWord: "shell",
+      instructions:
+        "Write a Unix shell command that performs the actions described in the text. Output only the command, with no additional text, and ensure it is ready to execute (do not include a ```bash prefix)."
+    },
+    {
+      name: "SQL",
+      commandWord: "sql",
+      instructions:
+        "Write an SQL query that performs the actions described in the text. Output only the query, with no additional text, and ensure it is ready to execute (do not include a ```sql prefix)."
     }
   ],
   commandSeparator: "///",
