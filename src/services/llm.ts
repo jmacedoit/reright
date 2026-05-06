@@ -27,20 +27,30 @@ export const providerModels = {
   openai: [
     "gpt-4o-mini",
     "gpt-4.1-nano",
+    "gpt-4.1",
     "gpt-5-nano",
     "gpt-5-mini",
-    "gpt-5.2",
     "gpt-5",
-    "gpt-4.1"
+    "gpt-5.2",
+    "gpt-5.4-nano",
+    "gpt-5.4-mini",
+    "gpt-5.4",
+    "gpt-5.5"
   ],
-  anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5", "claude-opus-4-5"],
+  anthropic: [
+    "claude-haiku-4-5",
+    "claude-sonnet-4-5",
+    "claude-sonnet-4-6",
+    "claude-opus-4-5",
+    "claude-opus-4-7"
+  ],
   ["google-genai"]: ["gemini-flash-lite-latest", "gemini-flash-latest"]
 } as Record<string, string[]>;
 
 export const recommendedModels = [
-  "gpt-4o-mini",
-  "gpt-5.2",
-  "claude-haiku-4-5",
+  "gpt-5.4-mini",
+  "gpt-5.5",
+  "claude-sonnet-4-6",
   "gemini-flash-lite-latest"
 ];
 
