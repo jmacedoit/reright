@@ -19,7 +19,8 @@
         "hiddenTitle": true,
         "titleBarStyle": "Overlay",
         "width": 960,
-        "height": 640
+        "height": 640,
+        "backgroundThrottling": "disabled"
       }
     ],
     "security": {
