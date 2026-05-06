@@ -111,7 +111,7 @@ const createSettingsSchema = (
             hint: t(translationKeys.screens.settings.form.model.modelId.hint),
             options: providerModels[selectedProvider].map((model) => ({
               label: `${model}${
-                recommendedModels.includes(model) ? " ⚡" : ""
+                recommendedModels.includes(model) ? " 👌" : ""
               }`,
               value: model
             }))
