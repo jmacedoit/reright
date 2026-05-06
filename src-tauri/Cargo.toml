@@ -1,6 +1,6 @@
 [package]
 name = "Reright"
-version = "0.4.1"
+version = "0.4.2"
 description = "An application that enables you to quickly and easily rephrase text snippets using AI."
 authors = ["João Macedo"]
 edition = "2021"
